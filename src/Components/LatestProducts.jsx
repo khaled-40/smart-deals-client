@@ -1,9 +1,14 @@
-import React from 'react';
+import  { use } from 'react';
+import Product from './Product';
 
-const LatestProducts = () => {
+const LatestProducts = ({productPromise}) => {
+    const products = use(productPromise);
+    console.log(products)
     return (
-        <div>
-            
+        <div className=''>
+            {
+                products.map(product => <Product key={product._id} product={product}></Product>)
+            }
         </div>
     );
 };

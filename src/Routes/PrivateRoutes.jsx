@@ -1,7 +1,7 @@
 import React, { use } from 'react';
 import { AuthContext } from '../Contexts/AuthContext';
 
-const PrivateRoutes = (children) => {
+const PrivateRoutes = ({children}) => {
 
         const {user, loading} = use(AuthContext);
 
