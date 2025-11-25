@@ -1,10 +1,11 @@
 import React, { use, useRef } from 'react';
 import { useLoaderData } from 'react-router';
 import { AuthContext } from '../Contexts/AuthContext';
+import Swal from 'sweetalert2';
 
 const ProductDetails = () => {
-    const {_id} = useLoaderData();
-    const {user} = use(AuthContext);
+    const { _id } = useLoaderData();
+    const { user } = use(AuthContext);
     const bidModalRef = useRef();
     // console.log(product)
     const handleBidModalOpen = () => {
@@ -28,14 +29,23 @@ const ProductDetails = () => {
         fetch('http://localhost:3000/bids', {
             method: 'POST',
             headers: {
-                'content-type' : 'application/json'
+                'content-type': 'application/json'
             },
             body: JSON.stringify(newBid)
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log('data after newbid', data.insertedId)
-        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    bidModalRef.current.close();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Your bid has been placed",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
     }
     return (
         <div>
@@ -56,14 +66,14 @@ const ProductDetails = () => {
                                 <fieldset className="fieldset">
                                     {/* Name field */}
                                     <label className="label">Name</label>
-                                    <input type="text" className="input" name='name' defaultValue={user.displayName} placeholder="Your Name" readOnly/>
+                                    <input type="text" className="input" name='name' defaultValue={user.displayName} placeholder="Your Name" readOnly />
                                     {/* Email field */}
                                     <label className="label">Email</label>
-                                    <input type="email" className="input" name='email' defaultValue={user.email} placeholder="Your Email" readOnly/>
+                                    <input type="email" className="input" name='email' defaultValue={user.email} placeholder="Your Email" readOnly />
                                     {/* Bid field */}
                                     <label className="label">Bid</label>
                                     <input type="text" className="input" name='bid' placeholder="Your Bid" />
-                                    
+
                                     <button className="btn btn-neutral mt-4">Place Your Bid</button>
                                 </fieldset>
                             </form>
