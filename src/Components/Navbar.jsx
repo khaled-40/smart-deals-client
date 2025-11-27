@@ -8,7 +8,7 @@ import { AuthContext } from '../Contexts/AuthContext';
 
 const Navbar = () => {
     const { signOutUser, user } = use(AuthContext);
-    // console.log(user)
+    // console.log(user.photoURL)
 
 
     const links = <>
@@ -58,7 +58,7 @@ const Navbar = () => {
                     user ?
                         <div className='flex'>
                             <button onClick={handleSignOut} className="btn btn-outline btn-primary">Sign Out</button>
-                            <img className="w-10 h-10 rounded-full ml-2" src={user.photoURL} alt="" />
+                            <img className="w-10 h-10 rounded-full ml-2" src={user?.photoURL} alt="" />
                         </div> :
                         <Link className='btn btn-primary
                         ' to={'/register'}>Register</Link>
