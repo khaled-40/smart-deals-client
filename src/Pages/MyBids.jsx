@@ -6,14 +6,37 @@ const MyBids = () => {
     const [bids, setBids] = useState([]);
     const { user } = use(AuthContext);
 
+    // console.log(user?.accessToken)
     useEffect(() => {
-        fetch(`http://localhost:3000/bids?email=${user?.email}`)
-            .then(res => res.json())
-            .then(data => {
-                console.log('my bids', data);
-                setBids(data);
+        if (user?.email) {
+
+            fetch(`http://localhost:3000/bids?email=${user?.email}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('smart-deals-token')}`
+                }
             })
-    }, [user?.email])
+                .then(res => res.json())
+                .then(data => {
+                    console.log('my bids', data);
+                    setBids(data);
+                })
+        }
+    }, [user])
+    // useEffect(() => {
+    //     if (user?.email) {
+
+    //         fetch(`http://localhost:3000/bids?email=${user?.email}`, {
+    //             headers: {
+    //                 authorization: `Bearer ${user.accessToken}`
+    //             }
+    //         })
+    //             .then(res => res.json())
+    //             .then(data => {
+    //                 console.log('my bids', data);
+    //                 setBids(data);
+    //             })
+    //     }
+    // }, [user?.email])
     // console.log(bids)
     const handleBidDelete = (id) => {
         Swal.fire({
@@ -38,7 +61,7 @@ const MyBids = () => {
                                 text: "Your bid has been deleted.",
                                 icon: "success"
                             });
-                            const remainingBids = bids.filter(bid =>bid._id !== id);
+                            const remainingBids = bids.filter(bid => bid._id !== id);
                             setBids(remainingBids)
                         }
                     })

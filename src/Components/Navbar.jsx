@@ -8,7 +8,7 @@ import { AuthContext } from '../Contexts/AuthContext';
 
 const Navbar = () => {
     const { signOutUser, user } = use(AuthContext);
-    // console.log(user.photoURL)
+    // console.log()
 
 
     const links = <>

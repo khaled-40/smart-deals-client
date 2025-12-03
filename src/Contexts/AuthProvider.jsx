@@ -34,6 +34,25 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
+            
+            if(currentUser) {
+                const loggedUser = {email : currentUser.email};
+                fetch('http://localhost:3000/getToken', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(loggedUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('after getting token', data)
+                    localStorage.setItem('smart-deals-token', data.token)
+                })
+            }
+            else{
+                localStorage.removeItem('smart-deals-token')
+            }
             setLoading(false)
         })
 

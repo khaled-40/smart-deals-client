@@ -12,12 +12,16 @@ const ProductDetails = () => {
     console.log(bids)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/product/bids/${productId}`)
+        fetch(`http://localhost:3000/product/bids/${productId}`,{
+            headers: {
+                authorization: `Bearer ${user.accessToken}`
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setBids(data)
             })
-    }, [productId])
+    }, [productId,user])
 
     const handleBidModalOpen = () => {
         bidModalRef.current.showModal();
