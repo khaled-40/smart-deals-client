@@ -2,6 +2,7 @@ import React, { use, useEffect, useRef, useState } from 'react';
 import { useLoaderData } from 'react-router';
 import { AuthContext } from '../Contexts/AuthContext';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const ProductDetails = () => {
     const { _id: productId } = useLoaderData();
@@ -12,16 +13,26 @@ const ProductDetails = () => {
     console.log(bids)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/product/bids/${productId}`,{
-            headers: {
-                authorization: `Bearer ${user.accessToken}`
-            }
-        })
-            .then(res => res.json())
+        axios.get(`http://localhost:3000/product/bids/${productId}`)
             .then(data => {
-                setBids(data)
+                console.log('after axios', data)
+                setBids(data.data)
             })
-    }, [productId,user])
+    }, [productId])
+
+
+
+    // useEffect(() => {
+    //     fetch(`http://localhost:3000/product/bids/${productId}`,{
+    //         headers: {
+    //             authorization: `Bearer ${user.accessToken}`
+    //         }
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setBids(data)
+    //         })
+    // }, [productId,user])
 
     const handleBidModalOpen = () => {
         bidModalRef.current.showModal();
@@ -60,8 +71,8 @@ const ProductDetails = () => {
                         timer: 1500
                     });
                     newBid._id = data.insertedId;
-                    const newBids = [...bids,newBid];
-                    newBids.sort((a,b) => b.bid_price - a.bid_price)
+                    const newBids = [...bids, newBid];
+                    newBids.sort((a, b) => b.bid_price - a.bid_price)
                     setBids(newBids)
                 }
             })
