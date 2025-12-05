@@ -17,7 +17,7 @@ const Register = () => {
                     email,
                     photoURL
                 }
-                fetch('http://localhost:3000/users',{
+                fetch('https://smart-deals-server-kappa-ten.vercel.app/users',{
                     method: 'POST',
                     headers: {
                         'content-type' : 'application/json'

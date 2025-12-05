@@ -13,7 +13,7 @@ const ProductDetails = () => {
     console.log(bids)
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/product/bids/${productId}`)
+        axios.get(`https://smart-deals-server-kappa-ten.vercel.app/product/bids/${productId}`)
             .then(data => {
                 console.log('after axios', data)
                 setBids(data.data)
@@ -52,7 +52,7 @@ const ProductDetails = () => {
             status: 'pending'
         }
         console.log(newBid)
-        fetch('http://localhost:3000/bids', {
+        fetch('https://smart-deals-server-kappa-ten.vercel.app/bids', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

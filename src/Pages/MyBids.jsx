@@ -12,7 +12,7 @@ const MyBids = () => {
     // console.log(user?.accessToken)
     useEffect(() => {
         if (user?.email) {
-            axiosSecure.get(`/bids?email=khaledmasudhamim838@gmail.com`)
+            axiosSecure.get(`/bids?email=${user?.email}`)
             .then(data => {
                 setBids(data.data)
             })
@@ -62,7 +62,7 @@ const MyBids = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 console.log('deleted')
-                fetch(`http://localhost:3000/bids/${id}`, {
+                fetch(`https://smart-deals-server-kappa-ten.vercel.app/bids/${id}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

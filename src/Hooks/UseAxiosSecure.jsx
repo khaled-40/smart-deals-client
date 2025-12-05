@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://smart-deals-server-kappa-ten.vercel.app'
 })
 
 const useAxiosSecure = () => {
-    const { user,signOutUser } = useAuth();
+    const { user, signOutUser } = useAuth();
     const navigate = useNavigate();
     // request interceptor
     useEffect(() => {
@@ -25,16 +25,16 @@ const useAxiosSecure = () => {
             const status = err.status;
             if (status === 401 || status === 403) {
                 signOutUser()
-                .then(() => {
-                    navigate('/register')
-                })
+                    .then(() => {
+                        navigate('/register')
+                    })
             }
         })
         return () => {
             instance.interceptors.request.eject(requestInterceptor)
             instance.interceptors.response.eject(responseInterceptor)
         }
-    }, [user,signOutUser, navigate])
+    }, [user, signOutUser, navigate])
     return instance
 }
 
